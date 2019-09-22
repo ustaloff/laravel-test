@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Page;
+
+Route::match(['get', 'post'], '/', 'PageController@index')->name('page.index');
+
+Route::get('/{link}', function ($link) {
+	return view('page', [
+		'link' => Page::where('short_link', '=', $link)->firstOrFail()
+	]);
 });
